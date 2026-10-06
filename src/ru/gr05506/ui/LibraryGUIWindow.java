@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BadLibraryWindow extends JFrame {
+public class LibraryGUIWindow extends JFrame implements LibraryView{
     private JTextField tfAuthor = new JTextField();
     private JTextField tfTitle = new JTextField();
     private JTextField tfYear = new JTextField();
@@ -13,34 +13,13 @@ public class BadLibraryWindow extends JFrame {
     private JButton btnAdd = new JButton();
     private JTextArea txtArea = new JTextArea();
     private JPanel panel = new JPanel();
-    private List<String> list = new ArrayList<>();
-    public BadLibraryWindow(){
+    public LibraryGUIWindow(LibraryController controller){
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(600,400));
 
         btnAdd.setText("Добавить");
         btnAdd.addActionListener(e -> {
-            String txtAuthor = tfAuthor.getText();
-            String txtTitle = tfTitle.getText();
-            String txtYear = tfYear.getText();
-            String txtDop = tfDop.getText();
-            if(txtAuthor == null || txtAuthor.isBlank()){
-             JOptionPane.showMessageDialog(this, "Введите имя Автора хорошего");
-            return;
-            }
-            if(txtTitle == null || txtTitle.isBlank()){
-                JOptionPane.showMessageDialog(this, "Введите название замечательной книги");
-                return;
-            }
-            if(txtYear == null || txtYear.isBlank()){
-                JOptionPane.showMessageDialog(this, "Введите год издания");
-                return;
-            }
-            list.add(txtAuthor + " " + txtTitle + " " + txtYear + " " + txtDop);
-            txtArea.setText("");
-            for (var el : list){
-                txtArea.append(el + "\n");
-            }
+            controller.addBookClicked();
         });
         GroupLayout gl = new GroupLayout(panel);
         panel.setLayout(gl);
@@ -79,4 +58,44 @@ public class BadLibraryWindow extends JFrame {
         add(new JScrollPane(txtArea),BorderLayout.CENTER);
     }
 
+    @Override
+    public String getAuthor() {
+        return tfAuthor.getText();
+    }
+
+    @Override
+    public String getBookTitle() {
+        return tfTitle.getText();
+    }
+
+    @Override
+    public String getYear() {
+        return tfYear.getText();
+    }
+
+    @Override
+    public String getInfo() {
+        return tfDop.getText();
+    }
+
+    @Override
+    public void clearInput() {
+        tfAuthor.setText("");
+        tfTitle.setText("");
+        tfYear.setText("");
+        tfDop.setText("");
+    }
+
+    @Override
+    public void showBooks(List<Book> books) {
+        txtArea.setText("");
+        for (var el : books){
+            txtArea.append(el.author()+" | "+el.title()+" | " + el.year() + " | " + el.info() + '\n');
+        }
+    }
+
+    @Override
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(this,message);
+    }
 }
