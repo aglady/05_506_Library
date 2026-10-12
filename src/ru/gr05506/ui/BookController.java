@@ -19,9 +19,34 @@ public class BookController {
             service.addBook(author,title,year,info);
             view.clearInput();
             view.showBooks(service.getAllBooks());
+            view.render(BookFormState.init());
         } catch (IllegalArgumentException e) {
-            view.showError(e.getMessage());
+            view.render(BookFormState.setError(e.getMessage()));
         }
+
+    }
+    public void inputChanged(){
+        if (isAddAllowed()){
+            view.render(BookFormState.setReady());
+        }
+        else{
+            view.render(BookFormState.init());
+        }
+    }
+
+    private boolean isAddAllowed() {
+        return isNotBlank(view.getAuthor())
+                && isNotBlank(view.getBookTitle())
+                && isNotBlank(view.getYear());
+    }
+
+    private boolean isNotBlank(String value) {
+        return  value != null && !value.isBlank();
+    }
+
+    public void viewOpened(){
+        view.showBooks(service.getAllBooks());
+        view.render(BookFormState.init());
 
     }
 }

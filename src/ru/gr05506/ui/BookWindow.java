@@ -2,6 +2,8 @@ package ru.gr05506.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class BookWindow extends JFrame implements BookView{
     private JButton btnAdd = new JButton();
     private JTextArea txtArea = new JTextArea();
     private JPanel panel = new JPanel();
+    private JLabel labelStatus = new JLabel();
 
     private final BookController controller;
     public BookWindow(BookController controller){
@@ -28,6 +31,24 @@ public class BookWindow extends JFrame implements BookView{
         btnAdd.setText("Добавить");
         btnAdd.addActionListener(e -> {
             controller.addBookClicked();
+        });
+        tfAuthor.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                controller.inputChanged();
+            }
+        });
+        tfTitle.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                controller.inputChanged();
+            }
+        });
+        tfYear.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                controller.inputChanged();
+            }
         });
         GroupLayout gl = new GroupLayout(panel);
         panel.setLayout(gl);
@@ -80,6 +101,7 @@ public class BookWindow extends JFrame implements BookView{
 
         add(panel,BorderLayout.NORTH);
         add(new JScrollPane(txtArea),BorderLayout.CENTER);
+        add(labelStatus,BorderLayout.SOUTH);
     }
 
     @Override
@@ -127,5 +149,14 @@ public class BookWindow extends JFrame implements BookView{
     @Override
     public void showError(String message) {
         JOptionPane.showMessageDialog(this, message);
+    }
+
+    @Override
+    public void render(BookFormState state) {
+        btnAdd.setEnabled(state.addEnabled());
+        labelStatus.setText(state.status());
+        if (state.error() != null){
+            showError(state.error());
+        }
     }
 }

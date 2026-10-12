@@ -8,8 +8,8 @@ void main() {
     RAMRepository repository = new RAMRepository();
     BookService service = new BookService(repository);
     BookController controller = new BookController(service);
-
     BookWindow wnd = new BookWindow(controller);
     controller.attachView(wnd);
     wnd.setVisible(true);
+    controller.viewOpened();
 }
