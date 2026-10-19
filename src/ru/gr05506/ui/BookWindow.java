@@ -98,7 +98,7 @@ public class BookWindow extends JFrame implements BookView{
                 )
                 .addGap(8)
         );
-
+        txtArea.setEditable(false);
         add(panel,BorderLayout.NORTH);
         add(new JScrollPane(txtArea),BorderLayout.CENTER);
         add(labelStatus,BorderLayout.SOUTH);
