@@ -7,7 +7,12 @@ import ru.gr05506.infrastructure.RAMRepository;
 void main() {
 
     RAMRepository repository = new RAMRepository();
-    BookService service = new BookService(repository);
+    Clock clock = Clock.systemDefaultZone();
+//    Clock clock = Clock.fixed(
+//            Instant.parse("2027-12-24T00:00:00Z"),
+//            ZoneId.systemDefault()
+//    );
+    BookService service = new BookService(repository, clock);
     BookInputParser parser = new BookInputParser();
     BookController controller = new BookController(service, parser);
     BookWindow wnd = new BookWindow(controller);
