@@ -1,9 +1,12 @@
-package ru.gr05506.ui;
+package ru.gr05506.infrastructure;
+
+import ru.gr05506.domain.Book;
+import ru.gr05506.domain.BookRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RAMRepository implements BookRepository{
+public class RAMRepository implements BookRepository {
     private List<Book> books = new ArrayList<>();
     @Override
     public void save(Book book) {

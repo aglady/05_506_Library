@@ -1,5 +1,7 @@
 package ru.gr05506.ui;
 
+import ru.gr05506.domain.Book;
+
 import java.util.List;
 import java.util.Scanner;
 

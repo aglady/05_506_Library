@@ -1,4 +1,4 @@
-package ru.gr05506.ui;
+package ru.gr05506.domain;
 
 import java.util.List;
 
